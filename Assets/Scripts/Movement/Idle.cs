@@ -1,18 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(IdleEvent))]
+[DisallowMultipleComponent]
 public class Idle : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody2D rigidBody2D;
+    private IdleEvent idleEvent;
+
+    private void Awake()
     {
-        
+        rigidBody2D = GetComponent<Rigidbody2D>();
+        idleEvent = GetComponent<IdleEvent>();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        idleEvent.OnIdle += IdleEvent_OnIdle;
+    }
+
+    private void OnDisable()
+    {
+        idleEvent.OnIdle -= IdleEvent_OnIdle;
+    }
+
+    private void IdleEvent_OnIdle(IdleEvent idleEvent)
+    {
+        MoveRigidBody();
+    }
+    
+    private void MoveRigidBody()
+    {
+        // ensure the rb collision detection is set to continuous
+        rigidBody2D.velocity = Vector2.zero;
     }
 }

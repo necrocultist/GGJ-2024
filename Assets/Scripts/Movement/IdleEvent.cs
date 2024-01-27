@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+[DisallowMultipleComponent]
 public class IdleEvent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public event Action<IdleEvent> OnIdle;
 
-    // Update is called once per frame
-    void Update()
+    public void CallIdleEvent()
     {
-        
+        Debug.Log("Idle Event Called");
+        OnIdle?.Invoke(this);
     }
 }
