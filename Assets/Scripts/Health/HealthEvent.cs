@@ -8,6 +8,7 @@ public class HealthEvent : MonoBehaviour
 
     public void CallHealthChangedEvent(float healthPercent, int healthAmount, int damageAmount)
     {
+        Debug.Log("Health Changed Event Called");
         OnHealthChanged?.Invoke(this,
             new HealthEventArgs()
                 { healthPercent = healthPercent, healthAmount = healthAmount, damageAmount = damageAmount });

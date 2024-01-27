@@ -1,18 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class DestroyedEvent : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public event Action<DestroyedEvent, DestroyedEventArgs> OnDestroyed;
 
-    // Update is called once per frame
-    void Update()
+    public void CallDestroyedEvent(bool playerDied, int points)
     {
-        
+        Debug.Log("Destroyed Event Called");
+        OnDestroyed?.Invoke(this, new DestroyedEventArgs() { playerDied = playerDied, points = points });
     }
+}
+
+public class DestroyedEventArgs : EventArgs
+{
+    public bool playerDied;
+    public int points;
 }

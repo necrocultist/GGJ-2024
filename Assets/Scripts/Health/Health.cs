@@ -62,6 +62,9 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
+        Debug.Log("Current health before damage:");
+        Debug.Log(currentHealth);
+
         if (!isDamageable)
         {
             return;
@@ -80,6 +83,10 @@ public class Health : MonoBehaviour
         {
             healthBar.SetHealthBarValue((float)currentHealth / (float)startingHealth);
         }
+        
+        Debug.Log("Current health after damage:");
+        Debug.Log(currentHealth);
+        
     }
 
     private void PostHitImmunity()

@@ -5,11 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerDetails_", menuName = "Scriptable Objects/Player/Player Details")]
 public class PlayerDetailsSO : ScriptableObject
 {
-    public string playerCharacterName;
-    public float playerSpeed;
+    public string playerCharacterName = "Player";
+    public float minMoveSpeed = 8f;
+    public float maxMoveSpeed = 8f;
     public GameObject playerPrefab;
     public int playerHealthAmount;
     public int playerDamageAmount;
     public bool isImmuneAfterHit = false;
     public float hitImmunityTime = 0.5f;
+    public static float animationBaseSpeed = 8f;
+    public float GetMoveSpeed()
+    {
+        return minMoveSpeed == maxMoveSpeed ? minMoveSpeed : Random.Range(minMoveSpeed, maxMoveSpeed);
+    }
 }
