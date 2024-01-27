@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 namespace DunGen
 {
@@ -18,19 +19,31 @@ namespace DunGen
         public static RoomControl instance;
         string currentWorldName = "FirstFloor";
         RoomInfo currentLoadRoomData;
+        Room currRoom;
         Queue<RoomInfo> loadRoomQueue = new Queue<RoomInfo>();
         public List<Room> loadedRooms = new List<Room>();
         bool isLoadingRoom = false;
+        bool spawnedBossRoom = false;
+        bool updatedRooms = false;
         void Awake(){
             instance = this;
         }
         public bool DoesRoomExist(int x, int y){
             return loadedRooms.Find(item=> item.x == x && item.y == y)!= null;
         }
+        public Room FindRoom(int x, int y)
+        {
+            return loadedRooms.Find(item=> item.x == x && item.y == y);
+        }
+
+        public void OnPlayerEnterRoom(Room room)
+        {
+            CameraController.instance.currRoom = room;
+            currRoom = room;
+        }
 
         public void LoadRoom(string name, int x, int y)
         {
-            Debug.Log("ana");
             if(DoesRoomExist(x,y))
             {
                 return;
@@ -55,18 +68,31 @@ namespace DunGen
 
         public void RegisterRoom(Room room)
         {
-            room.transform.position = new Vector3
-            (
-                currentLoadRoomData.x * room.width,
-                currentLoadRoomData.y * room.height,
-                0
-            );
-            room.x = currentLoadRoomData.x;
-            room.y = currentLoadRoomData.y;
-            room.name = currentWorldName + "-" + currentLoadRoomData.name + " " + room.x + ", " + room.y;
-            room.transform.parent = transform;
-            isLoadingRoom = false;
-            loadedRooms.Add(room);
+            if (!DoesRoomExist(currentLoadRoomData.x, currentLoadRoomData.y))
+            {
+                room.transform.position = new Vector3
+                (
+                    currentLoadRoomData.x * room.width,
+                    currentLoadRoomData.y * room.height,
+                    0
+                );
+                room.x = currentLoadRoomData.x;
+                room.y = currentLoadRoomData.y;
+                room.name = currentWorldName + "-" + currentLoadRoomData.name + " " + room.x + ", " + room.y;
+                room.transform.parent = transform;
+                isLoadingRoom = false;
+                if (loadedRooms.Count == 0)
+                {
+                    CameraController.instance.currRoom = room;
+                }
+
+                loadedRooms.Add(room);
+            }
+            else
+            {
+                Destroy(room.gameObject);
+                isLoadingRoom = false;
+            }
         }
 
         void UpdateRoomQueue()
@@ -78,26 +104,45 @@ namespace DunGen
 
             if (loadRoomQueue.Count == 0)
             {
+                if (!spawnedBossRoom)
+                {
+                    StartCoroutine(SpawnedBossRoom());
+                }
+                else if (spawnedBossRoom && !updatedRooms)
+                {
+                    foreach (Room room in loadedRooms)
+                    {
+                        room.RemoveUnconnectedDoors();
+                    }
+
+                    updatedRooms = true;
+                }
+
                 return;
             }
 
+            
+            
             currentLoadRoomData = loadRoomQueue.Dequeue();
             isLoadingRoom = true;
             StartCoroutine(LoadRoomRoutine(currentLoadRoomData));
         }
-    
-    
 
-        void Start()
-        {       
-            LoadRoom("Start",0,0);
-            LoadRoom("Empty",1,0);
-            LoadRoom("Empty",2,0);
-            LoadRoom("Empty",1,1);
 
+        IEnumerator SpawnedBossRoom()
+        {
+            spawnedBossRoom = true;
+            yield return new WaitForSeconds(0.5f);
+            if (loadRoomQueue.Count == 0)
+            {
+                Room bossRoom = loadedRooms[loadedRooms.Count - 1];
+                Room tempRoom = new Room(bossRoom.x, bossRoom.y);
+                Destroy(bossRoom.gameObject);
+                var roomToRemove = loadedRooms.Single(r => r.x == tempRoom.x && r.y == tempRoom.y);
+                loadedRooms.Remove(roomToRemove);
+                LoadRoom("Boss",tempRoom.x,tempRoom.y);
+            }
         }
-    
-    
 
 
         void Update()
