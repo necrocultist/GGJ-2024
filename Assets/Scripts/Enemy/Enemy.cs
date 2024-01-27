@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
-// [RequireComponent(typeof(EnemyMovementAI))]
+[RequireComponent(typeof(EnemyMovement))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(DestroyedEvent))]
@@ -15,19 +15,19 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private int enemyDifficulty = 1;
     public EnemyDetailsSO enemyDetails;
-    private Health health;
-    private HealthEvent healthEvent;
+    [SerializeField] private int enemyDifficulty = 1;
+    [HideInInspector] public Health health;
+    [HideInInspector] public HealthEvent healthEvent;
     [HideInInspector] public IdleEvent idleEvent;
-    private DealContactDamage dealContactDamage;
-    private ReceiveContactDamage receiveContactDamage;
-    private Destroyed destroyed;
-    private DestroyedEvent destroyedEvent;
-    private Rigidbody2D rb;
+    [HideInInspector] public DealContactDamage dealContactDamage;
+    [HideInInspector]public ReceiveContactDamage receiveContactDamage;
+    [HideInInspector] public Destroyed destroyed;
+    [HideInInspector]public DestroyedEvent destroyedEvent;
+    [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public Animator animator;
-    // private EnemyMovementAI enemyMovementAI;
+    [HideInInspector] public EnemyMovement enemyMovement;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
         dealContactDamage = GetComponent<DealContactDamage>();
         receiveContactDamage = GetComponent<ReceiveContactDamage>();
         destroyed = GetComponent<Destroyed>();
-        // enemyMovementAI = GetComponent<EnemyMovementAI>();
+        enemyMovement = GetComponent<EnemyMovement>();
         
         Initialize(enemyDetails, enemyDifficulty);
     }

@@ -62,8 +62,6 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        Debug.Log("Current health before damage: " + currentHealth + " of object " + gameObject.name);
-
         if (!isDamageable)
         {
             return;
@@ -82,9 +80,6 @@ public class Health : MonoBehaviour
         {
             healthBar.SetHealthBarValue((float)currentHealth / (float)startingHealth);
         }
-        
-        Debug.Log("Current health after damage: " + currentHealth + " of object " + gameObject.name);
-        
     }
 
     private void PostHitImmunity()
