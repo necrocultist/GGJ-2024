@@ -62,8 +62,7 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(int damageAmount)
     {
-        Debug.Log("Current health before damage:");
-        Debug.Log(currentHealth);
+        Debug.Log("Current health before damage: " + currentHealth + " of object " + gameObject.name);
 
         if (!isDamageable)
         {
@@ -84,8 +83,7 @@ public class Health : MonoBehaviour
             healthBar.SetHealthBarValue((float)currentHealth / (float)startingHealth);
         }
         
-        Debug.Log("Current health after damage:");
-        Debug.Log(currentHealth);
+        Debug.Log("Current health after damage: " + currentHealth + " of object " + gameObject.name);
         
     }
 
@@ -122,12 +120,10 @@ public class Health : MonoBehaviour
             iterations--;
 
             yield return null;
-
         }
-
         isDamageable = true;
-
     }
+    
     private void CallHealthEvent(int damageAmount)
     {
         healthEvent.CallHealthChangedEvent(((float)currentHealth / (float)startingHealth), currentHealth, damageAmount);
@@ -142,6 +138,11 @@ public class Health : MonoBehaviour
     public int GetStartingHealth()
     {
         return startingHealth;
+    }
+    
+    public bool AliveCheck()
+    {
+        return currentHealth > 0;
     }
     
     public void AddHealth(int healthPercent)
