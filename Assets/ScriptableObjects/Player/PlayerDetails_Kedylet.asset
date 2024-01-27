@@ -16,7 +16,11 @@ MonoBehaviour:
   minMoveSpeed: 8
   maxMoveSpeed: 8
   playerPrefab: {fileID: 3341740397065221222, guid: 89ff5e7d04d10f24e938fa92066fe13e, type: 3}
-  playerHealthAmount: 100
   playerDamageAmount: 4
+  playerAttackRange: 5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  playerHealthAmount: 100
   isImmuneAfterHit: 0
   hitImmunityTime: 0.5
