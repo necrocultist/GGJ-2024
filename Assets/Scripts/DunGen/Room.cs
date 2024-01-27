@@ -28,10 +28,10 @@ namespace DunGen
         
         void Start()
         {
-            if(RoomControl.instance == null)
-            {
-                Debug.Log("Start at wrong room");
-            }
+            // if(RoomControl.instance == null)
+            // {
+            //     Debug.Log("Start at wrong room");
+            // }
 
             Door[] ds = GetComponentsInChildren<Door>();
             foreach (Door d in ds)
