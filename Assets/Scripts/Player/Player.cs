@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,6 +10,8 @@ using UnityEngine;
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(Destroyed))]
 [RequireComponent(typeof(DestroyedEvent))]
+[RequireComponent(typeof(PlayerAttack))]
+[RequireComponent(typeof(AttackEvent))]
 [RequireComponent(typeof(Idle))]
 [RequireComponent(typeof(IdleEvent))]
 [RequireComponent(typeof(DealContactDamage))]
@@ -23,33 +22,24 @@ public class Player : MonoBehaviour
     public PlayerDetailsSO playerDetails;
     [HideInInspector] public Health health;
     [HideInInspector] public HealthEvent healthEvent;
-    [HideInInspector] public PlayerController playerController;
     [HideInInspector] public IdleEvent idleEvent;
-    [HideInInspector] public DealContactDamage dealContactDamage;
-    [HideInInspector] public ReceiveContactDamage receiveContactDamage;
     [HideInInspector] public DestroyedEvent destroyedEvent;
-    [HideInInspector] public Destroyed destroyed;
-    [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator animator;
     [HideInInspector] public SpriteRenderer spriteRenderer;
-    [HideInInspector] public MovementByVelocity movementByVelocity;
     [HideInInspector] public MovementByVelocityEvent movementByVelocityEvent;
+    [HideInInspector] public AttackEvent attackEvent;
+    
 
     private void Awake()
     {
         healthEvent = GetComponent<HealthEvent>();
         health = GetComponent<Health>();
         destroyedEvent = GetComponent<DestroyedEvent>();
-        playerController = GetComponent<PlayerController>();
         idleEvent = GetComponent<IdleEvent>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
-        dealContactDamage = GetComponent<DealContactDamage>();
-        receiveContactDamage = GetComponent<ReceiveContactDamage>();
-        destroyed = GetComponent<Destroyed>();
-        movementByVelocity = GetComponent<MovementByVelocity>();
         movementByVelocityEvent = GetComponent<MovementByVelocityEvent>();
+        attackEvent = GetComponent<AttackEvent>();
         
         Initialize(playerDetails);
     }

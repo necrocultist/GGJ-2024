@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
             return;
 
         HandleMovementInput();
+        
+        HandleAttackInput();
     }
     
     private void HandleMovementInput()
@@ -37,8 +39,6 @@ public class PlayerController : MonoBehaviour
 
         Vector2 direction = new Vector2(horizontalMovement, verticalMovement);
         
-        Debug.Log(direction);
-
         if (direction != Vector2.zero)
         {
             player.movementByVelocityEvent.CallMovementByVelocityEvent(direction, moveSpeed);
@@ -53,7 +53,15 @@ public class PlayerController : MonoBehaviour
             // player.animator.SetBool("isWalking", false);
         }
     }
-    
+
+    private void HandleAttackInput()
+    {
+        if(Input.GetButtonDown("Fire1"))
+        {
+            player.attackEvent.CallAttackEvent(player.playerDetails.playerDamageAmount);
+        }
+    }
+
     public void EnablePlayer()
     {
         isPlayerMovementDisabled = false;

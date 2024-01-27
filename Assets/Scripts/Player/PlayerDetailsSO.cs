@@ -9,11 +9,17 @@ public class PlayerDetailsSO : ScriptableObject
     public float minMoveSpeed = 8f;
     public float maxMoveSpeed = 8f;
     public GameObject playerPrefab;
-    public int playerHealthAmount;
+    
     public int playerDamageAmount;
+    public float playerAttackRange;
+    public LayerMask enemyLayer;
+    
+    public int playerHealthAmount;
     public bool isImmuneAfterHit = false;
     public float hitImmunityTime = 0.5f;
+    
     public static float animationBaseSpeed = 8f;
+    
     public float GetMoveSpeed()
     {
         return minMoveSpeed == maxMoveSpeed ? minMoveSpeed : Random.Range(minMoveSpeed, maxMoveSpeed);
