@@ -8,7 +8,6 @@ public class DestroyedEvent : MonoBehaviour
 
     public void CallDestroyedEvent(bool playerDied, int points)
     {
-        Debug.Log("Destroyed Event Called");
         OnDestroyed?.Invoke(this, new DestroyedEventArgs() { playerDied = playerDied, points = points });
     }
 }
