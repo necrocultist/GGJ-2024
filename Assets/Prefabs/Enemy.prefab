@@ -303,4 +303,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 565edcdc32b5f8340a76bd189fc9be54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  notInRoom: 0
+  notInRoom: 1
