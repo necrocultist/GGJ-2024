@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviour
     
     private void EnemyDestroyed()
     {
-        RoomControl.instance.StartCoroutine(RoomControl.instance.RoomCoroutine());
+        RoomControl.instance.UpdateRooms();
         DestroyedEvent destroyedEvent = GetComponent<DestroyedEvent>();
         destroyedEvent.CallDestroyedEvent(false, health.GetStartingHealth());
     }
