@@ -9,8 +9,10 @@ public class EnemyMovement : MonoBehaviour
     private EnemyDetailsSO enemyDetails;
     private Rigidbody2D rb;
     private Vector3 initialPosition;
-    private bool isPatrolling = true;
+    private bool isPatrolling = false;
     private float patrolTimer = 0f;
+    private float randomPatrolDuration;
+    private Vector2 randomPatrolDirection;
 
     private void Start()
     {
@@ -19,11 +21,12 @@ public class EnemyMovement : MonoBehaviour
         enemyDetails = enemy.enemyDetails;
         rb = enemy.rb;
         initialPosition = transform.position;
+
+        SetRandomPatrolValues();
     }
 
     private void Update()
     {
-        Debug.Log(isPatrolling);
         MoveEnemy();
     }
 
@@ -38,10 +41,11 @@ public class EnemyMovement : MonoBehaviour
         {
             if (!isPatrolling)
             {
-                Debug.Log("Not patrolling");
                 ReturnToInitialPosition();
-                if (Vector3.Distance(transform.position, initialPosition) < 0.1f)
+                if (Vector3.Distance(transform.position, initialPosition) < 0.01f)
                 {
+                    // Set new random patrol values when returning to initial position
+                    SetRandomPatrolValues();
                     isPatrolling = true;
                 }
             }
@@ -54,33 +58,33 @@ public class EnemyMovement : MonoBehaviour
 
     private bool IsPlayerInRange()
     {
-        Debug.Log("Checking if player is in range");
         return Vector3.Distance(transform.position, playerLocation.position) < enemyDetails.chaseDistance;
     }
 
     private void Patrol()
     {
         Debug.Log("Patrolling");
-        rb.velocity = new Vector2(enemyDetails.patrolSpeed, enemyDetails.patrolSpeed);
+        rb.velocity = randomPatrolDirection * enemyDetails.patrolSpeed;
 
         patrolTimer += Time.deltaTime;
         if (patrolTimer > enemyDetails.patrolTime)
         {
-            rb.velocity = new Vector2(-enemyDetails.patrolSpeed, 0f);
-            patrolTimer = 0f;
+            // Set new random patrol values after the current patrol duration
+            SetRandomPatrolValues();
         }
     }
 
     private void ReturnToInitialPosition()
     {
         Debug.Log("Returning to initial position");
-        float direction = (initialPosition.x - transform.position.x > 0) ? 1f : -1f;
-        rb.velocity = new Vector2(enemyDetails.patrolSpeed * direction, 0f);
 
-        // Check if the enemy has moved past the initial position
-        if ((direction > 0 && transform.position.x > initialPosition.x) ||
-            (direction < 0 && transform.position.x < initialPosition.x))
+        Vector2 direction = ((Vector2)initialPosition - (Vector2)transform.position).normalized;
+        rb.velocity = direction * enemyDetails.patrolSpeed;
+
+        if (Vector2.Distance(transform.position, initialPosition) < 0.1f)
         {
+            // Set new random patrol values when returning to initial position
+            SetRandomPatrolValues();
             isPatrolling = true;
         }
     }
@@ -90,5 +94,10 @@ public class EnemyMovement : MonoBehaviour
         Debug.Log("Chasing player");
         Vector3 direction = (playerLocation.position - transform.position).normalized;
         rb.velocity = new Vector2(enemyDetails.chaseSpeed * direction.x, enemyDetails.chaseSpeed * direction.y);
+    }
+
+    private void SetRandomPatrolValues()
+    {
+        randomPatrolDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
     }
 }

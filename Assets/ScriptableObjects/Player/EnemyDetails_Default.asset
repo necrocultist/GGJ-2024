@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: EnemyDetails_Default
   m_EditorClassIdentifier: 
   enemyCharacterName: Enemy
-  enemyPrefab: {fileID: 1828909803107831399, guid: 0d1add333188f6e4b9a3d25926e58b8b, type: 3}
+  enemyPrefab: {fileID: 7391099271265442724, guid: 0d1add333188f6e4b9a3d25926e58b8b, type: 3}
   enemyHealthAmount: 10
   enemyDamageAmount: 50
   chaseDistance: 2
-  patrolSpeed: 0.5
-  chaseSpeed: 2
+  patrolSpeed: 2
+  chaseSpeed: 4
   patrolTime: 2
   isImmuneAfterHit: 0
   hitImmunityTime: 0.5

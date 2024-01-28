@@ -8,7 +8,6 @@ public class AttackEvent : MonoBehaviour
 
     public void CallAttackEvent(int damageAmount)
     {
-        Debug.Log("Attack Event Called");
         OnAttack?.Invoke(this, new AttackEventArgs() { damageAmount = damageAmount });
     }
 }
