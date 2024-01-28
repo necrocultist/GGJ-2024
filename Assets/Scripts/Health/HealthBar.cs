@@ -1,20 +1,36 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private GameObject healthBar;
+    [SerializeField] private GameObject healthBarObject;
+    [SerializeField] private Slider healthBarSlider;
+
+    private void Start()
+    {
+        // Ensure the healthBarSlider component is assigned in the Inspector
+        if (healthBarSlider == null)
+        {
+            Debug.LogError("HealthBarSlider Slider component is not assigned.");
+            enabled = false; // Disable the script to prevent errors
+        }
+    }
+
     public void EnableHealthBar()
     {
-        gameObject.SetActive(true);
+        if (healthBarObject != null)
+            healthBarObject.SetActive(true);
     }
-    
+
     public void DisableHealthBar()
     {
-        gameObject.SetActive(false);
+        if (healthBarObject != null)
+            healthBarObject.SetActive(false);
     }
-    
+
     public void SetHealthBarValue(float healthPercent)
     {
-        healthBar.transform.localScale = new Vector3(healthPercent, 1f, 1f);
+        if (healthBarSlider != null)
+            healthBarSlider.value *= Mathf.Clamp01(healthPercent);
     }
 }

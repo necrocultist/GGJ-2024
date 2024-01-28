@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(IdleEvent))]
 [DisallowMultipleComponent]
 public class EnemyMovement : MonoBehaviour
@@ -9,18 +10,21 @@ public class EnemyMovement : MonoBehaviour
     private Enemy enemy;
     private EnemyDetailsSO enemyDetails;
     private Rigidbody2D rb;
+    private Animator animator;
     private Vector3 initialPosition;
     private bool isPatrolling = false;
     private float patrolTimer = 0f;
     private float randomPatrolDuration;
     private Vector2 randomPatrolDirection;
     public bool notInRoom = true;
+
     private void Start()
     {
         playerLocation = GameObject.FindGameObjectWithTag("Player").transform;
         enemy = GetComponent<Enemy>();
         enemyDetails = enemy.enemyDetails;
         rb = enemy.rb;
+        animator = GetComponent<Animator>();
         initialPosition = transform.position;
 
         SetRandomPatrolValues();
@@ -34,22 +38,23 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-
     private void MoveEnemy()
     {
         if (IsPlayerInRange())
         {
             isPatrolling = false;
+            animator.SetBool("IsChasing", true);
+            FlipSprite(playerLocation.position.x > transform.position.x);
             ChasePlayer();
         }
         else
         {
+            animator.SetBool("IsChasing", false);
             if (!isPatrolling)
             {
                 ReturnToInitialPosition();
                 if (Vector3.Distance(transform.position, initialPosition) < 0.01f)
                 {
-                    // Set new random patrol values when returning to initial position
                     SetRandomPatrolValues();
                     isPatrolling = true;
                 }
@@ -60,6 +65,18 @@ public class EnemyMovement : MonoBehaviour
             }
         }
     }
+    
+    private void FlipSprite(bool isFacingRight)
+    {
+        if (isFacingRight)
+        {
+            enemy.spriteRenderer.flipX = false;
+        }
+        else
+        {
+            enemy.spriteRenderer.flipX = true;
+        }
+    }
 
     private bool IsPlayerInRange()
     {
@@ -68,7 +85,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void Patrol()
     {
-        Debug.Log("Patrolling");
         rb.velocity = randomPatrolDirection * enemyDetails.patrolSpeed;
 
         patrolTimer += Time.deltaTime;
@@ -81,8 +97,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void ReturnToInitialPosition()
     {
-        Debug.Log("Returning to initial position");
-
         Vector2 direction = ((Vector2)initialPosition - (Vector2)transform.position).normalized;
         rb.velocity = direction * enemyDetails.patrolSpeed;
 
@@ -96,7 +110,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void ChasePlayer()
     {
-        Debug.Log("Chasing player");
         Vector3 direction = (playerLocation.position - transform.position).normalized;
         rb.velocity = new Vector2(enemyDetails.chaseSpeed * direction.x, enemyDetails.chaseSpeed * direction.y);
     }
