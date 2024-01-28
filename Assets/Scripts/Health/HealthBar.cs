@@ -12,7 +12,6 @@ public class HealthBar : MonoBehaviour
         if (healthBarSlider == null)
         {
             Debug.LogError("HealthBarSlider Slider component is not assigned.");
-            enabled = false; // Disable the script to prevent errors
         }
     }
 

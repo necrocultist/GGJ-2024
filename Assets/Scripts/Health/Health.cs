@@ -56,7 +56,7 @@ public class Health : MonoBehaviour
         }
         else if (healthBar != null)
         {
-            healthBar.DisableHealthBar();
+            healthBar.EnableHealthBar();
         }
     }
 

@@ -140,7 +140,6 @@ namespace DunGen
         {
             if (other.tag == "Player")
             {
-                Debug.Log("baban");
                 RoomControl.instance.OnPlayerEnterRoom(this);
             }
         }
