@@ -40,6 +40,12 @@ namespace DunGen
         {
             CameraController.instance.currRoom = room;
             currRoom = room;
+            StartCoroutine(RoomCoroutine());
+        }
+
+        public IEnumerator RoomCoroutine()
+        {
+            yield return new WaitForSeconds(0.2f);
             UpdateRooms();
         }
 
