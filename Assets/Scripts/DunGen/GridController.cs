@@ -43,6 +43,7 @@ namespace DunGen
                     availablePoints.Add((go.transform.position));
                 }
             }
+            GetComponentInParent<ObjectRoomSpawner>().InitializeObjectSpawning();
         }
     }
 }
