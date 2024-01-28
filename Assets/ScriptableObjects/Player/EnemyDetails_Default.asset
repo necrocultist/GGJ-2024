@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyCharacterName: Enemy
   enemyPrefab: {fileID: 7391099271265442724, guid: 0d1add333188f6e4b9a3d25926e58b8b, type: 3}
-  enemyHealthAmount: 100
-  enemyDamageAmount: 50
-  chaseDistance: 5
+  enemyHealthAmount: 10
+  enemyDamageAmount: 10
+  chaseDistance: 4
   patrolSpeed: 1
   chaseSpeed: 2
   patrolTime: 2
