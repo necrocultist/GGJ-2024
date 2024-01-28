@@ -57,17 +57,6 @@ namespace DunGen
                             enemy.enemyMovement.notInRoom = true;
                         }
 
-                        foreach (Door door in room.GetComponentsInChildren<Door>())
-                        {
-                            door.doorCollider.SetActive(false);
-                        }
-                    }
-                    else
-                    {
-                        foreach (Door door in room.GetComponentsInChildren<Door>())
-                        {
-                            door.doorCollider.SetActive(false);
-                        }
                     }
                 }
                 else
@@ -78,17 +67,6 @@ namespace DunGen
                         foreach (Enemy enemy in enemies)
                         {
                             enemy.enemyMovement.notInRoom = false;
-                        }
-                        foreach (Door door in room.GetComponentsInChildren<Door>())
-                        {
-                            door.doorCollider.SetActive(true);
-                        }
-                    }
-                    else
-                    {
-                        foreach (Door door in room.GetComponentsInChildren<Door>())
-                        {
-                            door.doorCollider.SetActive(false);
                         }
                     }
                 }
