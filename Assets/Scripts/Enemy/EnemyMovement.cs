@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(IdleEvent))]
 [DisallowMultipleComponent]
 public class EnemyMovement : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class EnemyMovement : MonoBehaviour
     private float patrolTimer = 0f;
     private float randomPatrolDuration;
     private Vector2 randomPatrolDirection;
-
+    public bool notInRoom = true;
     private void Start()
     {
         playerLocation = GameObject.FindGameObjectWithTag("Player").transform;
@@ -27,8 +28,12 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        MoveEnemy();
+        if (!notInRoom)
+        {
+            MoveEnemy();
+        }
     }
+
 
     private void MoveEnemy()
     {

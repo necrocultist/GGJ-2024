@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 68e39ccd705e3a64989e959662d4ed94, type: 3}
-  m_Name: EnemyDeneme
+  m_Name: EnemyChaser
   m_EditorClassIdentifier: 
-  itemToSpawn: {fileID: 1446559832069699481, guid: 56bff20b6a541c6488167a3a93ac6aed, type: 3}
-  minSpawn: 0
-  maxSpawn: 0
+  itemToSpawn: {fileID: 7391099271265442724, guid: 0d1add333188f6e4b9a3d25926e58b8b, type: 3}
+  minSpawn: 2
+  maxSpawn: 5

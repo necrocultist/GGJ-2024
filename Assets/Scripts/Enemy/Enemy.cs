@@ -1,3 +1,4 @@
+using DunGen;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public Animator animator;
     [HideInInspector] public EnemyMovement enemyMovement;
+
 
     private void Awake()
     {
@@ -65,6 +67,7 @@ public class Enemy : MonoBehaviour
     
     private void EnemyDestroyed()
     {
+        RoomControl.instance.UpdateRooms();
         DestroyedEvent destroyedEvent = GetComponent<DestroyedEvent>();
         destroyedEvent.CallDestroyedEvent(false, health.GetStartingHealth());
     }

@@ -40,6 +40,60 @@ namespace DunGen
         {
             CameraController.instance.currRoom = room;
             currRoom = room;
+            UpdateRooms();
+        }
+
+        public void UpdateRooms()
+        {
+            foreach (Room room in loadedRooms)
+            {
+                if (currRoom != room)
+                {
+                    Enemy[] enemies = room.GetComponentsInChildren<Enemy>();
+                    if (enemies != null)
+                    {
+                        foreach (Enemy enemy in enemies)
+                        {
+                            enemy.enemyMovement.notInRoom = true;
+                        }
+
+                        foreach (Door door in room.GetComponentsInChildren<Door>())
+                        {
+                            door.doorCollider.SetActive(false);
+                        }
+                    }
+                    else
+                    {
+                        foreach (Door door in room.GetComponentsInChildren<Door>())
+                        {
+                            door.doorCollider.SetActive(false);
+                        }
+                    }
+                }
+                else
+                {
+                    Enemy[] enemies = room.GetComponentsInChildren<Enemy>();
+                    if (enemies.Length > 0)
+                    {
+                        foreach (Enemy enemy in enemies)
+                        {
+                            enemy.enemyMovement.notInRoom = false;
+                        }
+                        foreach (Door door in room.GetComponentsInChildren<Door>())
+                        {
+                            door.doorCollider.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        foreach (Door door in room.GetComponentsInChildren<Door>())
+                        {
+                            door.doorCollider.SetActive(false);
+                        }
+                    }
+                }
+            }
+            
         }
 
         public void LoadRoom(string name, int x, int y)
@@ -64,6 +118,15 @@ namespace DunGen
             {
                 yield return null;
             }
+        }
+
+        public string GetRandomRoomName()
+        {
+            string[] possibleRooms = new string[]
+            {
+                "Set1"
+            };
+            return possibleRooms[Random.Range(0, possibleRooms.Length)];
         }
 
         public void RegisterRoom(Room room)
@@ -114,8 +177,9 @@ namespace DunGen
                     {
                         room.RemoveUnconnectedDoors();
                     }
-
+                    UpdateRooms();
                     updatedRooms = true;
+                    
                 }
 
                 return;
