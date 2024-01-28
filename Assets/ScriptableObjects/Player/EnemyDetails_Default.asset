@@ -15,7 +15,7 @@ MonoBehaviour:
   enemyCharacterName: Enemy
   enemyPrefab: {fileID: 1828909803107831399, guid: 0d1add333188f6e4b9a3d25926e58b8b, type: 3}
   enemyHealthAmount: 10
-  enemyDamageAmount: 10
+  enemyDamageAmount: 50
   chaseDistance: 2
   patrolSpeed: 0.5
   chaseSpeed: 2

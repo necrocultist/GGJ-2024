@@ -17,7 +17,7 @@ MonoBehaviour:
   maxMoveSpeed: 8
   playerPrefab: {fileID: 3341740397065221222, guid: 89ff5e7d04d10f24e938fa92066fe13e, type: 3}
   playerDamageAmount: 4
-  playerAttackRange: 5
+  playerAttackRange: 0.5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
